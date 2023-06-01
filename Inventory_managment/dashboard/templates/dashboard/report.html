@@ -61,9 +61,13 @@
             <th colspan="6" style="text-align:right">Total Profit:</th>
             <td>{{ total_profit }}</td>
         </tr>
+        <tr>
+            <th colspan="6" style="text-align:right">Total Sale Amount:</th>
+            <td>{{ total_sale_amount }}</td>
+        </tr>
     </table>
     <br>
-    <h2>weekly Sales</h2>
+    <h2>Weekly Sales</h2>
     <table>
         <tr>
             <th>Product Name</th>
@@ -87,11 +91,15 @@
         {% endfor %}
         <tr>
             <th colspan="6" style="text-align:right">Total Sales:</th>
-            <td>{{ total_sales }}</td>
+            <td>{{ total_weekly_sales }}</td>
         </tr>
         <tr>
             <th colspan="6" style="text-align:right">Total Profit:</th>
             <td>{{ total_profit }}</td>
+        </tr>
+        <tr>
+            <th colspan="6" style="text-align:right">Total Sale Amount:</th>
+            <td>{{ total_sale_amount }}</td>
         </tr>
     </table>
 
@@ -120,14 +128,18 @@
         {% endfor %}
         <tr>
             <th colspan="6" style="text-align:right">Total Sales:</th>
-            <td>{{ total_sales }}</td>
+            <td>{{ total_monthly_sales }}</td>
         </tr>
         <tr>
             <th colspan="6" style="text-align:right">Total Profit:</th>
             <td>{{ total_profit }}</td>
         </tr>
+        <tr>
+            <th colspan="6" style="text-align:right">Total Sale Amount:</th>
+            <td>{{ total_sale_amount }}</td>
+        </tr>
     </table>
-    <!-- Add similar table structures for weekly, monthly, and yearly sales -->
+    
     <br>
     <h2>Yearly Sales</h2>
     <table>
@@ -153,11 +165,15 @@
         {% endfor %}
         <tr>
             <th colspan="6" style="text-align:right">Total Sales:</th>
-            <td>{{ total_sales }}</td>
+            <td>{{ total_yearly_sales }}</td>
         </tr>
         <tr>
             <th colspan="6" style="text-align:right">Total Profit:</th>
             <td>{{ total_profit }}</td>
+        </tr>
+        <tr>
+            <th colspan="6" style="text-align:right">Total Sale Amount:</th>
+            <td>{{ total_sale_amount }}</td>
         </tr>
     </table>
 </body>

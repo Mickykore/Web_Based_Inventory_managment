@@ -1,3 +1,4 @@
+{% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +8,29 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>hello</h1>
+    <h2>Products</h2>
+    <form action="POST">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <input type="button" value="Add Product">
+    </form>
+    <br>
+    <table>
+        <tr>
+            <th>Product Name</th>
+            <th>Product Category</th>
+            <th>Purchased Price</th>
+            <th>Quantity</th>
+            <th>date_purchased </th>
+        </tr>
+        {% for product in products %}
+        <tr>
+            <td>{{ product.name }}</td>
+            <td>{{ product.category }}</td>
+            <td>{{ product.price }}</td>
+            <td>{{ product.quantity }}</td>
+            <td>{{ product.date_purchased }}</td>
+        </tr>
+        {% endfor %}
 </body>
 </html>
