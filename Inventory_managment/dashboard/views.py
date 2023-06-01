@@ -1,33 +1,52 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .reports import *
 from django.contrib.auth.decorators import login_required
-from .models import Product
-from .form import ProductForm
+from .models import Product, Category
+from .form import ProductForm, CategoryForm
 @login_required(login_url='/login/')
 def home(request):
-    return render(request, 'dashboard/home.html')
+    if request.method == 'POST':
+        categories = CategoryForm(request.POST)
+        if categories.is_valid():
+            categories.save()
+            return redirect('dashboard-product')
+    else:
+        categories = CategoryForm()
+
+    context = {
+        'categories': categories,
+    }
+    return render(request, 'dashboard/home.html', context)
     # return HttpResponse('<h1>Home page</h1>')
     
     
 @login_required(login_url='/login/')
 def product(request):
-    products = Product.objects.all()
-    
+    categories = Category.objects.all()
+    selected_category = request.GET.get('category')
+
+    if selected_category:
+        products = Product.objects.filter(category__category=selected_category)
+    else:
+        products = Product.objects.all()
+
     if request.method == 'POST':
         form = ProductForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard-product')
     else:
         form = ProductForm()
+
     context = {
         'products': products,
         'form': form,
+        'categories': categories,
+        'selected_category': selected_category,
     }
     return render(request, 'dashboard/product.html', context)
 
-
-@login_required(login_url='/login/')
-def sales(request):
-    return render(request, 'dashboard/sales.html')
 
 # @login_required(login_url='/login/')
 # def report(request):
