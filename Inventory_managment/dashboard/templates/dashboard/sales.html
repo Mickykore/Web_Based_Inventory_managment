@@ -1,0 +1,59 @@
+{% load crispy_forms_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'dashboard/styles.css' %}">
+</head>
+<body>
+    <h2>Sales</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {{ sales_form|crispy }}
+        <button type="submit">Add Sale</button>
+    </form>
+    <br>
+    <h2>Daily Sales </h2>
+    <p>date {{ sales.date }}</p>
+    <table>
+        <tr>
+            <th>No.</th>
+            <th>Product Name</th>
+            <th>Product Category</th>
+            <th>Purchased Price</th>
+            <th>Sale Price</th>
+            <th>Quantity</th>
+            <th>Total Sale</th>
+            <th>Sale date</th>
+            
+        </tr>
+        {% for sale in daily_sales %}
+        <tr>
+            <td>{{ sale.ID }}</td>
+            <td>{{ sale.product_name }}</td>
+            <td>{{ sale.product_category }}</td>
+            <td>{{ sale.purchased_price }}</td>
+            <td>{{ sale.sale_price }}</td>
+            <td>{{ sale.quantity }}</td>
+            <td>{{ sale.total_sale }}</td>
+            <td>{{ sale.sale_date.date }}</td>
+            
+            
+        </tr>
+        {% endfor %}
+        {% comment %} <tr>
+            <th colspan="6" style="text-align:right">Total Sales:</th>
+            <td>{{ total_sales }}</td>
+        </tr> {% endcomment %}
+        <tr>
+            <th colspan="6" style="text-align:right">Total Amount:</th>
+            <td>{{ total_sale_amount }}</td>
+        </tr>
+</table>
+<br>
+</body>
+</html>

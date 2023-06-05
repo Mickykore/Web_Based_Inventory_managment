@@ -17,6 +17,12 @@
 </head>
 <body>
     <h2>Products</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {{ add_categories|crispy }}
+        <button type="submit">Add Category</button>
+    </form>
+    <br>
     <form id="filter-form" method="GET">
         {% csrf_token %}
         <label for="category">Filter by Category:</label>
