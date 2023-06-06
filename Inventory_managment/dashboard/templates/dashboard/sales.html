@@ -18,7 +18,10 @@
     </form>
     <br>
     <h2>Daily Sales </h2>
-    <p>date {{ sales.date }}</p>
+    {% if sales %}
+      {{ sales.now.sale_date.date }}
+    {% endif %}
+    <p>date {{sales.sale_date }}</p>
     <table>
         <tr>
             <th>No.</th>

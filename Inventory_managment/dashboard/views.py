@@ -236,7 +236,7 @@ def reports(request):
     return render(request, 'dashboard/report.html', context)
 
 
-
+@login_required(login_url='/login/')
 def sales(request):
     sales = Sales.objects.all()
     daily_sales, total_daily_sales = get_daily_sales()
@@ -244,6 +244,7 @@ def sales(request):
     total_profit = 0
     total_sale_amount = 0 
     id_obj = itertools.count()
+    sale_date = Sales.sale_date
     for sale in daily_sales:
         sale_data = {
             'ID': next(id_obj),
@@ -276,5 +277,6 @@ def sales(request):
         'total_daily_sales': total_daily_sales,
         'total_profit': total_profit,
         'total_sale_amount': total_sale_amount,
+        'sale_date': sale_date,
     }
     return render(request, 'dashboard/sales.html', context)
