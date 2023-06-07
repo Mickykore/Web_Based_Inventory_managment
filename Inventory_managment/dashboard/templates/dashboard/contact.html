@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+
+    }
+
+    .container {
+      flex: 1;
+      width: 600px;
+      margin: 0 auto;
+      padding: 40px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    textarea {
+      resize: none;
+      height: 120px;
+    }
+
+    .submit-btn {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      background-color: #333;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      text-align: center;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .submit-btn:hover {
+      background-color: #555;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="logo-container">
+      <img src="https://img.freepik.com/premium-vector/logistic-logo-template-icon-illustration-brand-identity-isolated-flat-illustration-vector-graphic_7109-1984.jpg?w=740" alt="Logo">
+      <h1 class="logo-text">MD-INVENTORY</h1>
+    </div>
+    <!-- nav bar -->
+    <nav class="nav-buttons">
+      <a href="index.html" class="nav-button">Home</a>
+      <a href="about.html" class="nav-button">About Us</a>
+      <a href="./features.html" class="nav-button">Features</a>
+      <a href="./contact.html" class="nav-button">Contact</a>
+      <div class="nav-dropdown">
+        <button class="nav-button">Account &#9662;</button>
+        <div class="dropdown-content">
+          <a href="#">Sign In</a>
+          <a href="#">Sign Up</a>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <div class="container">
+    <h1>Contact Us</h1>
+    <form action="#" method="POST">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" placeholder="Your Name" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="Your Email" required>
+      </div>
+      <div class="form-group">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" placeholder="Your Message" required></textarea>
+      </div>
+      <button type="submit" class="submit-btn">Send Message</button>
+    </form>
+  </div>
+  <footer>
+    <div class="footer-content">
+      <div class="footer-links">
+        <a href="#" class="social-icon"><i class="fab fa-facebook"></i></a>
+        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+      </div>
+      <p>&copy; 2023 MDInventory App. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>
