@@ -24,6 +24,7 @@
 </form>
 
     <h2>Daily Sales</h2>
+    <p>{{ daily_sales.0.sale_date}}</p>
     <table>
         <tr>
             <th>Product Name</th>
@@ -67,6 +68,7 @@
     </table>
     <br>
     <h2>Weekly Sales</h2>
+    <p>From {{ weekly_sales.0.sale_date}} - </p>
     <table>
         <tr>
             <th>Product Name</th>
@@ -110,6 +112,7 @@
     </table>
     <br>
     <h2>Monthly Sales</h2>
+    <p>{{ monthly_sales.0.sale_date|date:"F" }}</p>
     <table>
         <tr>
             <th>Product Name</th>
@@ -154,6 +157,7 @@
     
     <br>
     <h2>Yearly Sales</h2>
+    <p>{{ yearly_sales.0.sale_date.year}}</p>
     <table>
         <tr>
             <th>Product Name</th>

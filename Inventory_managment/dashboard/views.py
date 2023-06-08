@@ -5,7 +5,8 @@ from django.contrib.auth.decorators import login_required
 from .models import Product, Category, Sales
 from .form import ProductForm, CategoryForm, SalesForm
 import itertools
-from datetime import datetime
+from datetime import datetime,date
+
 @login_required(login_url='/login/')
 def home(request):
     
@@ -44,6 +45,65 @@ def product(request):
     }
     return render(request, 'dashboard/product.html', context)
 
+@login_required(login_url='/login/')
+def delete_product(request, product_id):
+    product = Product.objects.get(id=product_id)
+
+    if request.method == 'POST':
+        product.delete()
+        return redirect('dashboard-product')
+
+    context = {
+        'product': product,
+    }
+    return render(request, 'dashboard/delete_product.html', context)
+
+@login_required(login_url='/login/')
+def update_product(request, product_id):
+    product = Product.objects.get(id=product_id)
+
+    if request.method == 'POST':
+        form = ProductForm(request.POST, instance=product)
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard-product')
+    else:
+        form = ProductForm(instance=product)
+
+    context = {
+        'product': product,
+        'form': form,
+    }
+    return render(request, 'dashboard/update_product.html', context)
+@login_required(login_url='/login/')
+def delete_category(request, category_id):
+    categories =Category.objects.get(id=category_id)
+    if request.method == 'POST':
+        categories.delete()
+        return redirect('dashboard-product')
+
+    context = {
+        'categories': categories,
+    }
+    return render(request, 'dashboard/delete_category.html', context)
+
+@login_required(login_url='/login/')
+def update_category(request, category_id):
+    categories = Category.objects.get(id=category_id)
+
+    if request.method == 'POST':
+        form = CategoryForm(request.POST, instance=categories)
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard-product')
+    else:
+        form = CategoryForm(instance=categories)
+
+    context = {
+        'categories': categories,
+        'form': form,
+    }
+    return render(request, 'dashboard/update_category.html', context)
 
 # @login_required(login_url='/login/')
 # def report(request):
@@ -154,6 +214,7 @@ def reports(request):
             'purchased_price': sale.product_name.price,
             'sale_price': sale.sale_price,
             'quantity': sale.sale_quantity,
+            'sale_date': sale.sale_date,
         }
         sale_data['profit'] = sale_data['sale_price'] - sale_data['purchased_price']
         sale_data['total_daily_sale_amount'] = sale_data['sale_price'] * sale_data['quantity']
@@ -170,6 +231,7 @@ def reports(request):
             'purchased_price': sale.product_name.price,
             'sale_price': sale.sale_price,
             'quantity': sale.sale_quantity,
+            'sale_date': sale.sale_date,
         }
         sale_data['profit'] = sale_data['sale_price'] - sale_data['purchased_price']
         sale_data['total_weekly_sale_amount'] = sale_data['sale_price'] * sale_data['quantity']
@@ -186,6 +248,7 @@ def reports(request):
             'purchased_price': sale.product_name.price,
             'sale_price': sale.sale_price,
             'quantity': sale.sale_quantity,
+            'sale_date': sale.sale_date,
         }
         sale_data['profit'] = sale_data['sale_price'] - sale_data['purchased_price']
         sale_data['total_monthly_sale_amount'] = sale_data['sale_price'] * sale_data['quantity']
@@ -202,6 +265,7 @@ def reports(request):
             'purchased_price': sale.product_name.price,
             'sale_price': sale.sale_price,
             'quantity': sale.sale_quantity,
+            'sale_date': sale.sale_date,
         }
         sale_data['profit'] = sale_data['sale_price'] - sale_data['purchased_price']
         sale_data['total_yearly_sale_amount'] = sale_data['sale_price'] * sale_data['quantity']
@@ -253,6 +317,8 @@ def sales(request):
             'purchased_price': sale.product_name.price,
             'sale_price': sale.sale_price,
             'quantity': sale.sale_quantity,
+            'sale_date': sale.sale_date,
+            'id': sale.id,
         }
         sale_data['profit'] = sale_data['sale_price'] - sale_data['purchased_price']
         sale_data['total_sale'] = sale_data['sale_price'] * sale_data['quantity']
@@ -261,6 +327,14 @@ def sales(request):
 
         total_profit += sale_data['total_profit']
         total_sale_amount += sale_data['total_sale']  # Increment the total sales amount
+        
+        
+
+        # today = date.today()
+        # sales_today = sales.values('id', 'sale_date')
+
+        # combined_sales = zip(list(sales_today),  daily_sales_data)
+
 
 
     if request.method == 'POST':
@@ -273,10 +347,41 @@ def sales(request):
     context = {
         'sales': sales,
         'sales_form':sales_form,
-        'daily_sales': daily_sales_data,
+        'daily_sales':  daily_sales_data,
         'total_daily_sales': total_daily_sales,
         'total_profit': total_profit,
         'total_sale_amount': total_sale_amount,
         'sale_date': sale_date,
     }
     return render(request, 'dashboard/sales.html', context)
+
+@login_required(login_url='/login/')
+def delete_sales(request, sale_id):
+    sale = Sales.objects.get(id=sale_id)
+
+    if request.method == 'POST':
+        sale.delete()
+        return redirect('dashboard-sales')
+
+    context = {
+        'sale': sale,
+    }
+    return render(request, 'dashboard/delete_sales.html', context)
+
+@login_required(login_url='/login/')
+def update_sales(request, sale_id):
+    sale = Sales.objects.get(id=sale_id)
+
+    if request.method == 'POST':
+        form = SalesForm(request.POST, instance=sale)
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard-sales')
+    else:
+        form = SalesForm(instance=sale)
+
+    context = {
+        'sale': sale,
+        'form': form,
+    }
+    return render(request, 'dashboard/update_sales.html', context)

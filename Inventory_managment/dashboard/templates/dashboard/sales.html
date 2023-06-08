@@ -18,10 +18,6 @@
     </form>
     <br>
     <h2>Daily Sales </h2>
-    {% if sales %}
-      {{ sales.now.sale_date.date }}
-    {% endif %}
-    <p>date {{sales.sale_date }}</p>
     <table>
         <tr>
             <th>No.</th>
@@ -32,7 +28,7 @@
             <th>Quantity</th>
             <th>Total Sale</th>
             <th>Sale date</th>
-            
+            <th>Action</th>
         </tr>
         {% for sale in daily_sales %}
         <tr>
@@ -43,9 +39,13 @@
             <td>{{ sale.sale_price }}</td>
             <td>{{ sale.quantity }}</td>
             <td>{{ sale.total_sale }}</td>
-            <td>{{ sale.sale_date.date }}</td>
-            
-            
+            <td>{{ sale.sale_date }}</td>
+            <td>
+                <a class="btn btn-info btn-sm mr-2"
+                    href="{% url 'dashboard-update_sales' sale.id %}">Edit</a>
+                <a class="btn btn-danger btn-sm ml-2"
+                    href="{% url 'dashboard-delete_sales' sale.id %}">Delete</a>
+            </td>
         </tr>
         {% endfor %}
         {% comment %} <tr>
