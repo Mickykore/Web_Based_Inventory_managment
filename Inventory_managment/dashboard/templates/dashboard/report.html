@@ -9,14 +9,14 @@
 <body>
     <h1>Sales Reports</h1>
 <form method="GET" action="{% url 'dashboard-reports' %}">
-    {% comment %} <label for="filter">Filter:</label>
+    <label for="filter">Filter:</label>
     <select id="filter" name="filter">
         <option value="daily" {% if filter_type == 'daily' %}selected{% endif %}>Daily</option>
         <option value="weekly" {% if filter_type == 'weekly' %}selected{% endif %}>Weekly</option>
         <option value="monthly" {% if filter_type == 'monthly' %}selected{% endif %}>Monthly</option>
         <option value="yearly" {% if filter_type == 'yearly' %}selected{% endif %}>Yearly</option>
         <option value="all" {% if filter_type == 'all' %}selected{% endif %}>All</option>
-    </select> {% endcomment %}
+    </select> 
 
     <label for="date">Date:</label>
     <input type="date" id="date" name="date" value="{% if selected_date %}{{ selected_date }}{% endif %}">
@@ -27,6 +27,7 @@
     <p>{{ daily_sales.0.sale_date}}</p>
     <table>
         <tr>
+            <th>No.</th>
             <th>Product Name</th>
             <th>Product Category</th>
             <th>Purchased Price</th>
@@ -35,10 +36,12 @@
             <th>Quantity</th>
             <th>Total Sale</th>
             <th>Total profit</th>
+            <th>Date</th>
             
         </tr>
         {% for sale in daily_sales %}
         <tr>
+            <td>{{ sale.no }}</td>
             <td>{{ sale.product_name }}</td>
             <td>{{ sale.product_category }}</td>
             <td>{{ sale.purchased_price }}</td>
@@ -47,30 +50,32 @@
             <td>{{ sale.quantity }}</td>
             <td>{{ sale.total_daily_sale_amount }}</td>
             <td>{{ sale.total_daily_profit }}</td>
+            <td>{{ sale.sale_date }}</td>
             
             
         </tr>
         {% endfor %}
         {% comment %} <tr>
-            <th colspan="6" style="text-align:right">Total Sales:</th>
+            <th colspan="7" style="text-align:right">Total Sales:</th>
             <td>{{ total_sales }}</td>
         </tr> {% endcomment %}
         <tr>
-            <th colspan="6" style="text-align:right">Total Amount:</th>
+            <th colspan="7" style="text-align:right">Total Amount:</th>
             <td>{{ total_daily_sale_amount }}</td>
             <td>{{ total_daily_profit }}</td>
         </tr>
         {% comment %} <tr>
-            <th colspan="6" style="text-align:right">Total Profit:</th>
+            <th colspan="7" style="text-align:right">Total Profit:</th>
             <td>{{ total_profit }}</td>
         </tr> {% endcomment %}
         
     </table>
     <br>
     <h2>Weekly Sales</h2>
-    <p>From {{ weekly_sales.0.sale_date}} - </p>
+    <p>From {{ start_of_week}} - {{ end_of_week }}</p>
     <table>
         <tr>
+            <th>No.</th>
             <th>Product Name</th>
             <th>Product Category</th>
             <th>Purchased Price</th>
@@ -79,10 +84,12 @@
             <th>Quantity</th>
             <th>Total Sale</th>
             <th>Total profit</th>
+            <th>Date</th>
             
         </tr>
         {% for sale in weekly_sales %}
         <tr>
+            <td>{{ sale.no }}</td>
             <td>{{ sale.product_name }}</td>
             <td>{{ sale.product_category }}</td>
             <td>{{ sale.purchased_price }}</td>
@@ -91,21 +98,21 @@
             <td>{{ sale.quantity }}</td>
             <td>{{ sale.total_weekly_sale_amount }}</td>
             <td>{{ sale.total_weekly_profit }}</td>
-            
+            <td>{{ sale.sale_date }}</td>
             
         </tr>
         {% endfor %}
         {% comment %} <tr>
-            <th colspan="6" style="text-align:right">Total Sales:</th>
+            <th colspan="7" style="text-align:right">Total Sales:</th>
             <td>{{ total_sales }}</td>
         </tr> {% endcomment %}
         <tr>
-            <th colspan="6" style="text-align:right">Total Amount:</th>
+            <th colspan="7" style="text-align:right">Total Amount:</th>
             <td>{{ total_weekly_sale_amount }}</td>
             <td>{{ total_weekly_profit }}</td>
         </tr>
         {% comment %} <tr>
-            <th colspan="6" style="text-align:right">Total Profit:</th>
+            <th colspan="7" style="text-align:right">Total Profit:</th>
             <td>{{ total_profit }}</td>
         </tr> {% endcomment %}
         
@@ -115,6 +122,7 @@
     <p>{{ monthly_sales.0.sale_date|date:"F" }}</p>
     <table>
         <tr>
+            <th>No.</th>
             <th>Product Name</th>
             <th>Product Category</th>
             <th>Purchased Price</th>
@@ -123,10 +131,12 @@
             <th>Quantity</th>
             <th>Total Sale</th>
             <th>Total profit</th>
+            <th>Date</th>
             
         </tr>
         {% for sale in monthly_sales %}
         <tr>
+            <td>{{ sale.no }}</td>
             <td>{{ sale.product_name }}</td>
             <td>{{ sale.product_category }}</td>
             <td>{{ sale.purchased_price }}</td>
@@ -135,21 +145,22 @@
             <td>{{ sale.quantity }}</td>
             <td>{{ sale.total_monthly_sale_amount }}</td>
             <td>{{ sale.total_monthly_profit }}</td>
+            <td>{{ sale.sale_date }}</td>
             
             
         </tr>
         {% endfor %}
         {% comment %} <tr>
-            <th colspan="6" style="text-align:right">Total Sales:</th>
+            <th colspan="7" style="text-align:right">Total Sales:</th>
             <td>{{ total_sales }}</td>
         </tr> {% endcomment %}
         <tr>
-            <th colspan="6" style="text-align:right">Total Amount:</th>
+            <th colspan="7" style="text-align:right">Total Amount:</th>
             <td>{{ total_monthly_sale_amount }}</td>
             <td>{{ total_monthly_profit }}</td>
         </tr>
         {% comment %} <tr>
-            <th colspan="6" style="text-align:right">Total Profit:</th>
+            <th colspan="7" style="text-align:right">Total Profit:</th>
             <td>{{ total_profit }}</td>
         </tr> {% endcomment %}
         
@@ -160,6 +171,7 @@
     <p>{{ yearly_sales.0.sale_date.year}}</p>
     <table>
         <tr>
+            <th>No.</th>
             <th>Product Name</th>
             <th>Product Category</th>
             <th>Purchased Price</th>
@@ -168,10 +180,12 @@
             <th>Quantity</th>
             <th>Total Sale</th>
             <th>Total profit</th>
+            <th>Date</th>
             
         </tr>
         {% for sale in yearly_sales %}
         <tr>
+            <td>{{ sale.no }}</td>
             <td>{{ sale.product_name }}</td>
             <td>{{ sale.product_category }}</td>
             <td>{{ sale.purchased_price }}</td>
@@ -180,21 +194,22 @@
             <td>{{ sale.quantity }}</td>
             <td>{{ sale.total_yearly_sale_amount }}</td>
             <td>{{ sale.total_yearly_profit }}</td>
+            <td>{{ sale.sale_date }}</td>
             
             
         </tr>
         {% endfor %}
         {% comment %} <tr>
-            <th colspan="6" style="text-align:right">Total Sales:</th>
+            <th colspan="7" style="text-align:right">Total Sales:</th>
             <td>{{ total_sales }}</td>
         </tr> {% endcomment %}
         <tr>
-            <th colspan="6" style="text-align:right">Total Amount:</th>
+            <th colspan="7" style="text-align:right">Total Amount:</th>
             <td>{{ total_yearly_sale_amount }}</td>
             <td>{{ total_yearly_profit }}</td>
         </tr>
         {% comment %} <tr>
-            <th colspan="6" style="text-align:right">Total Profit:</th>
+            <th colspan="7" style="text-align:right">Total Profit:</th>
             <td>{{ total_profit }}</td>
         </tr> {% endcomment %}
         

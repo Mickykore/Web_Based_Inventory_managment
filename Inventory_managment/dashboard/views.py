@@ -143,56 +143,59 @@ def update_category(request, category_id):
 def reports(request):
     filter_type = request.GET.get('filter', 'daily')  # Get the filter type from the query parameters
     selected_date = request.GET.get('date')  # Get the selected date from the query parameters
-
-    if filter_type == 'daily':
+    no = itertools.count()
+    # if filter_type == 'daily':
         # Get daily sales report for the selected date or today if no date is selected
-        if selected_date:
-            date = datetime.strptime(selected_date, '%Y-%m-%d').date()
-            daily_sales, total_daily_sales = get_daily_sales(date)
-        else:
-            daily_sales, total_daily_sales = get_daily_sales()
-        weekly_sales, total_weekly_sales = get_weekly_sales()
-        monthly_sales, total_monthly_sales = get_monthly_sales()
-        yearly_sales, total_yearly_sales = get_yearly_sales()
-    elif filter_type == 'weekly':
-        # Get weekly sales report for the selected date range or the current week if no date range is selected
-        start_date = request.GET.get('start_date')
-        end_date = request.GET.get('end_date')
-        if start_date and end_date:
-            start_date = datetime.strptime(start_date, '%Y-%m-%d').date()
-            end_date = datetime.strptime(end_date, '%Y-%m-%d').date()
-            weekly_sales, total_weekly_sales = get_weekly_sales(start_date)
-        else:
-            weekly_sales, total_weekly_sales = get_weekly_sales()
-        daily_sales, total_daily_sales = get_daily_sales()
-        monthly_sales, total_monthly_sales = get_monthly_sales()
-        yearly_sales, total_yearly_sales = get_yearly_sales()
-    elif filter_type == 'monthly':
-        # Get monthly sales report for the selected month and year or the current month and year if no date is selected
-        if selected_date:
-            date = datetime.strptime(selected_date, '%Y-%m').date()
-            monthly_sales, total_monthly_sales = get_monthly_sales(date)
-        else:
-            monthly_sales, total_monthly_sales = get_monthly_sales()
-        daily_sales, total_daily_sales = get_daily_sales()
-        weekly_sales, total_weekly_sales = get_weekly_sales()
-        yearly_sales, total_yearly_sales = get_yearly_sales()
-    elif filter_type == 'yearly':
-        # Get yearly sales report for the selected year or the current year if no date is selected
-        if selected_date:
-            date = datetime.strptime(selected_date, '%Y').date()
-            yearly_sales, total_yearly_sales = get_yearly_sales(date)
-        else:
-            yearly_sales, total_yearly_sales = get_yearly_sales()
-        daily_sales, total_daily_sales = get_daily_sales()
-        weekly_sales, total_weekly_sales = get_weekly_sales()
-        monthly_sales, total_monthly_sales = get_monthly_sales()
+    if selected_date:
+        date = datetime.strptime(selected_date, '%Y-%m-%d').date()
+        daily_sales, total_daily_sales = get_daily_sales(date)
+        weekly_sales, total_weekly_sales, start_of_week, end_of_week = get_weekly_sales(date)
+        monthly_sales, total_monthly_sales = get_monthly_sales(date)
+        yearly_sales, total_yearly_sales = get_yearly_sales(date)
     else:
-        # Get all sales data
         daily_sales, total_daily_sales = get_daily_sales()
-        weekly_sales, total_weekly_sales = get_weekly_sales()
+        weekly_sales, total_weekly_sales, start_of_week, end_of_week = get_weekly_sales()
         monthly_sales, total_monthly_sales = get_monthly_sales()
         yearly_sales, total_yearly_sales = get_yearly_sales()
+    # elif filter_type == 'weekly':
+    #     # Get weekly sales report for the selected date range or the current week if no date range is selected
+    #     start_date = request.GET.get('start_date')
+    #     end_date = request.GET.get('end_date')
+    #     if start_date and end_date:
+    #         start_date = datetime.strptime(start_date, '%Y-%m-%d').date()
+    #         end_date = datetime.strptime(end_date, '%Y-%m-%d').date()
+    #         weekly_sales, total_weekly_sales = get_weekly_sales(start_date)
+    #     else:
+    #         weekly_sales, total_weekly_sales = get_weekly_sales()
+    #     daily_sales, total_daily_sales = get_daily_sales()
+    #     monthly_sales, total_monthly_sales = get_monthly_sales()
+    #     yearly_sales, total_yearly_sales = get_yearly_sales()
+    # elif filter_type == 'monthly':
+    #     # Get monthly sales report for the selected month and year or the current month and year if no date is selected
+    #     if selected_date:
+    #         date = datetime.strptime(selected_date, '%Y-%m-%d').date()
+    #         monthly_sales, total_monthly_sales = get_monthly_sales(date)
+    #     else:
+    #         monthly_sales, total_monthly_sales = get_monthly_sales()
+    #     daily_sales, total_daily_sales = get_daily_sales()
+    #     weekly_sales, total_weekly_sales = get_weekly_sales()
+    #     yearly_sales, total_yearly_sales = get_yearly_sales()
+    # elif filter_type == 'yearly':
+    #     # Get yearly sales report for the selected year or the current year if no date is selected
+    #     if selected_date:
+    #         date = datetime.strptime(selected_date, '%Y-%m-%d').date()
+    #         yearly_sales, total_yearly_sales = get_yearly_sales(date)
+    #     else:
+    #         yearly_sales, total_yearly_sales = get_yearly_sales()
+    #     daily_sales, total_daily_sales = get_daily_sales()
+    #     weekly_sales, total_weekly_sales = get_weekly_sales()
+    #     monthly_sales, total_monthly_sales = get_monthly_sales()
+    # else:
+    #     # Get all sales data
+    #     daily_sales, total_daily_sales = get_daily_sales()
+    #     weekly_sales, total_weekly_sales = get_weekly_sales()
+    #     monthly_sales, total_monthly_sales = get_monthly_sales()
+    #     yearly_sales, total_yearly_sales = get_yearly_sales()
 
     daily_sales_data = []
     weekly_sales_data = []
@@ -209,6 +212,7 @@ def reports(request):
 
     for sale in daily_sales:
         sale_data = {
+            'no': next(no),
             'product_name': sale.product_name.name,
             'product_category': sale.product_name.category.category,
             'purchased_price': sale.product_name.price,
@@ -223,9 +227,11 @@ def reports(request):
 
         total_daily_profit += sale_data['total_daily_profit']
         total_daily_sale_amount += sale_data['total_daily_sale_amount']  # Increment the total sales amount
-
+        
+    no = itertools.count()
     for sale in weekly_sales:
         sale_data = {
+            'no': next(no),
             'product_name': sale.product_name.name,
             'product_category': sale.product_name.category.category,
             'purchased_price': sale.product_name.price,
@@ -241,8 +247,10 @@ def reports(request):
         total_weekly_profit += sale_data['total_weekly_profit']
         total_weekly_sale_amount += sale_data['total_weekly_sale_amount']
 
+    no = itertools.count()
     for sale in monthly_sales:
         sale_data = {
+            'no': next(no),
             'product_name': sale.product_name.name,
             'product_category': sale.product_name.category.category,
             'purchased_price': sale.product_name.price,
@@ -258,8 +266,10 @@ def reports(request):
         total_monthly_profit += sale_data['total_monthly_profit']
         total_monthly_sale_amount += sale_data['total_monthly_sale_amount']
 
+    no = itertools.count()
     for sale in yearly_sales:
         sale_data = {
+            'no': next(no),
             'product_name': sale.product_name.name,
             'product_category': sale.product_name.category.category,
             'purchased_price': sale.product_name.price,
@@ -295,6 +305,9 @@ def reports(request):
         'total_monthly_sale_amount': total_monthly_sale_amount,
         'total_yearly_profit': total_yearly_profit,
         'total_yearly_sale_amount': total_yearly_sale_amount,
+        'end_of_week': end_of_week,
+        'start_of_week': start_of_week,
+        
     }
 
     return render(request, 'dashboard/report.html', context)
@@ -328,32 +341,37 @@ def sales(request):
         total_profit += sale_data['total_profit']
         total_sale_amount += sale_data['total_sale']  # Increment the total sales amount
         
-        
-
-        # today = date.today()
-        # sales_today = sales.values('id', 'sale_date')
-
-        # combined_sales = zip(list(sales_today),  daily_sales_data)
-
-
-
     if request.method == 'POST':
         sales_form = SalesForm(request.POST)
         if sales_form.is_valid():
-            sales_form.save()
-            return redirect('dashboard-sales')
+            sale_price = sales_form.cleaned_data['sale_price']
+            purchased_price = sales_form.cleaned_data['product_name'].price
+            sale_quantity = sales_form.cleaned_data['sale_quantity']
+            product_quantity = sales_form.cleaned_data['product_name'].quantity
+            
+            if sale_price < purchased_price:
+                sales_form.add_error('sale_price', 'Sale price cannot be less than purchased price.')
+            
+            if sale_quantity > product_quantity:
+                sales_form.add_error('sale_quantity', 'Sale quantity cannot be greater than the product quantity.')
+            
+            if not sales_form.errors:
+                sales_form.save()
+                return redirect('dashboard-sales')
     else:
         sales_form = SalesForm()
+    
     context = {
         'sales': sales,
-        'sales_form':sales_form,
-        'daily_sales':  daily_sales_data,
+        'sales_form': sales_form,
+        'daily_sales': daily_sales_data,
         'total_daily_sales': total_daily_sales,
         'total_profit': total_profit,
         'total_sale_amount': total_sale_amount,
         'sale_date': sale_date,
     }
     return render(request, 'dashboard/sales.html', context)
+
 
 @login_required(login_url='/login/')
 def delete_sales(request, sale_id):
