@@ -34,16 +34,23 @@
             <th>Order_by</th>
             <th>phone No.</th>
             <th>Date</th>
+            <th>Actions</th>
         </tr>
         {% for order in customer_orders %}
         <tr>
             <td>{{ order.id }}</td>
             <td>{{ order.product_name }}</td>
             <td>{{ order.category }}</td>
-            <td>{{ order.quantity }}</td>
+            <td>{{ order.order_quantity }}</td>
             <th>{{ order.customer_name }}</th>
             <td>{{ order.customer_phone_no }}</td>
             <td>{{ order.order_date }}</td>
+            <td>
+                <a class="btn btn-info btn-sm mr-2"
+                    href="{% url 'dashboard-update_customer_order' order.id %}">Edit</a>
+                <a class="btn btn-danger btn-sm ml-2"
+                    href="{% url 'dashboard-delete_customer_order' order.id %}">Delete</a>
+            </td>
         </tr>
         {% endfor %}
     </table>
@@ -58,19 +65,47 @@
             <th>Quantity</th>
             <th>Order_by</th>
             <th>Date</th>
+            <th>Actions</th>
         </tr>
         {% for order in staff_orders %}
         <tr>
             <td>{{ order.id }}</td>
             <td>{{ order.product_name }}</td>
             <td>{{ order.category }}</td>
-            <td>{{ order.quantity }}</td>
+            <td>{{ order.order_quantity }}</td>
             <th>{{ order.staff }}</th>
             <td>{{ order.order_date }}</td>
+            <td>
+                <a class="btn btn-info btn-sm mr-2"
+                    href="{% url 'dashboard-update_staff_order' order.id %}">Edit</a>
+                <a class="btn btn-danger btn-sm ml-2"
+                    href="{% url 'dashboard-delete_staff_order' order.id %}">Delete</a>
+            </td>
         </tr>
         {% endfor %}
     </table>
     <button class="print-button" onclick="printTable('staff Order Table', 'staff Order Table')">Print Orders</button>
+    <br>
+    <h2>Recommended Order Table</h2>
+    <table id="Recommended Order Table">
+        <tr>
+            <th>Id</th>
+            <th>Product Name</th>
+            <th>Category</th>
+            <th>Quantity</th>
+            <th>Order_by</th>
+        </tr>
+        {% for order in low_quantity_products %}
+        <tr>
+            <td>{{ order.id }}</td>
+            <td>{{ order.name }}</td>
+            <td>{{ order.category }}</td>
+            <td>{{ order.quantity }}</td>
+            <th>{{ "Authomatic Recommendation" }}</th>
+        </tr>
+        {% endfor %}
+    </table>
+    <button class="print-button" onclick="printTable('Recommended Order Table', 'Recommended Order Table')">Print Orders</button>
     <script>
         function printTable(tableId, title) {
             var printContents = "<h2>" + title + "</h2>" + document.getElementById(tableId).outerHTML;

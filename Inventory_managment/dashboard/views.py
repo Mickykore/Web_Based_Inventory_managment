@@ -408,7 +408,7 @@ def update_sales(request, sale_id):
 def order(request):
     customer_orders = OrderByCustomer.objects.all()
     staff_orders = OrderByStaff.objects.all()
-
+    low_quantity_products = Product.objects.filter(quantity__lte=5)
     if request.method == 'POST':
         customer_form = CustomerOrderForm(request.POST)
         staff_form = StaffOrderForm(request.POST)
@@ -429,8 +429,69 @@ def order(request):
         'customer_form': customer_form,
         'staff_form': staff_form,
         'customer_orders': customer_orders,
-        'staff_orders': staff_orders
+        'staff_orders': staff_orders,
+        'low_quantity_products': low_quantity_products,
     }
     return render(request, 'dashboard/order.html', context)
 
+@login_required(login_url='/login/')
+def delete_customer_order(request, order_id):
+    customer_orders = OrderByCustomer.objects.get(id=order_id)
+    if request.method == 'POST':  
+            customer_orders.delete()
+            return redirect('dashboard-orders')
 
+    context = {
+        'customer_orders': customer_orders,
+    }
+    return render(request, 'dashboard/delete_customer_order.html', context)
+@login_required(login_url='/login/')
+def delete_staff_order(request, order_id):
+    staff_orders = OrderByStaff.objects.get(id=order_id)
+    if request.method == 'POST':  
+            staff_orders.delete()
+            return redirect('dashboard-orders')
+
+
+    context = {
+        'staff_orders': staff_orders,
+    }
+    return render(request, 'dashboard/delete_staff_order.html', context)
+
+@login_required(login_url='/login/')
+def update_customer_order(request, order_id):
+    customer_order = OrderByCustomer.objects.get(id=order_id)
+
+    if request.method == 'POST':
+        customer_form = CustomerOrderForm(request.POST, instance=customer_order)
+        
+        if customer_form.is_valid():
+            customer_form.save()
+            return redirect('dashboard-orders')
+
+    else:
+        customer_form = CustomerOrderForm(instance=customer_order)
+
+    context = {
+        'customer_form': customer_form,
+        'customer_orders': customer_order,
+    }
+    return render(request, 'dashboard/update_customer_order.html', context)
+def update_staff_order(request, order_id):
+    staff_order = OrderByStaff.objects.get(id=order_id)
+
+    if request.method == 'POST':
+        staff_form = StaffOrderForm(request.POST, instance=staff_order)
+        
+        if staff_form.is_valid():
+            staff_form.save()
+            return redirect('dashboard-orders')
+
+    else:
+        staff_form = StaffOrderForm(instance=staff_order)
+
+    context = {
+        'staff_form': staff_form,
+        'staff_orders': staff_order,
+    }
+    return render(request, 'dashboard/update_staff_order.html', context)
