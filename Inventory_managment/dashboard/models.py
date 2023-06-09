@@ -36,12 +36,29 @@ class Sales(models.Model):
         super().save(*args, **kwargs)
 
     
-# class report(models.Model):
-#     product_name = models.ForeignKey(Sales, on_delete= models.CASCADE)
-#     sale_price = models.ForeignKey(Sales, on_delete= models.CASCADE)
-#     sale_date = models.ForeignKey(Sales, on_delete=models.CASCADE)
-#     total_sales = models.DecimalField()
+class OrderByCustomer(models.Model):
+    product_name = models.CharField(max_length=100)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    order_quantity = models.PositiveIntegerField()
+    customer_name = models.CharField(max_length=100, blank=True, null=True)
+    customer_phone_no = models.CharField(max_length=20)
+    staff = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    order_date = models.DateTimeField(default=timezone.now)
+
+
+
+    def __str__(self):
+        return f"{self.product_name} - {self.order_quantity}"
     
-#     def __str__(self):
-#         return f'{self.product_name} {self.sale.price}'
+class OrderByStaff(models.Model):
+    product_name = models.CharField(max_length=100)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    order_quantity = models.PositiveIntegerField()
+    staff = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    order_date = models.DateTimeField(default=timezone.now)
+
+
+
+    def __str__(self):
+        return f"{self.product_name} - {self.order_quantity}"
     

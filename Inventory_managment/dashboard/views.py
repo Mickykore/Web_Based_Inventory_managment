@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .reports import *
 from django.contrib.auth.decorators import login_required
-from .models import Product, Category, Sales
-from .form import ProductForm, CategoryForm, SalesForm
+from .models import Product, Category, Sales, OrderByCustomer, OrderByStaff
+from .form import ProductForm, CategoryForm, SalesForm, CustomerOrderForm, StaffOrderForm
 import itertools
 from datetime import datetime,date
 
@@ -403,3 +403,34 @@ def update_sales(request, sale_id):
         'form': form,
     }
     return render(request, 'dashboard/update_sales.html', context)
+
+@login_required(login_url='/login/')
+def order(request):
+    customer_orders = OrderByCustomer.objects.all()
+    staff_orders = OrderByStaff.objects.all()
+
+    if request.method == 'POST':
+        customer_form = CustomerOrderForm(request.POST)
+        staff_form = StaffOrderForm(request.POST)
+        
+        if 'customer_order' in request.POST and customer_form.is_valid():
+            customer_form.save()
+            return redirect('dashboard-orders')
+        
+        if 'staff_order' in request.POST and staff_form.is_valid():
+            staff_form.save()
+            return redirect('dashboard-orders')
+
+    else:
+        customer_form = CustomerOrderForm()
+        staff_form = StaffOrderForm()
+
+    context = {
+        'customer_form': customer_form,
+        'staff_form': staff_form,
+        'customer_orders': customer_orders,
+        'staff_orders': staff_orders
+    }
+    return render(request, 'dashboard/order.html', context)
+
+

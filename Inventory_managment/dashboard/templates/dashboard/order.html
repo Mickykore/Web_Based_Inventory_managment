@@ -1,0 +1,84 @@
+{% load crispy_forms_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'dashboard/styles.css' %}">
+</head>
+<body>
+    <h1>Orders</h1>
+    <br>
+    <h2>Order by Customer</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {{ customer_form|crispy }}
+        <button type="submit" name="customer_order">Add Order</button>
+    </form>
+    <br>
+    <h2>Order by staff</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {{ staff_form|crispy }}
+        <button type="submit" name="staff_order">Add Order</button>
+    </form>
+    <h2>Customer Order Table</h2>
+    <table id="Customer Order Table">
+        <tr>
+            <th>Id</th>
+            <th>Product Name</th>
+            <th>Category</th>
+            <th>Quantity</th>
+            <th>Order_by</th>
+            <th>phone No.</th>
+            <th>Date</th>
+        </tr>
+        {% for order in customer_orders %}
+        <tr>
+            <td>{{ order.id }}</td>
+            <td>{{ order.product_name }}</td>
+            <td>{{ order.category }}</td>
+            <td>{{ order.quantity }}</td>
+            <th>{{ order.customer_name }}</th>
+            <td>{{ order.customer_phone_no }}</td>
+            <td>{{ order.order_date }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <button class="print-button" onclick="printTable('Customer Order Table', 'Customer Order Table')">Print Orders</button>
+
+    <h2>staff Order Table</h2>
+    <table id="staff Order Table">
+        <tr>
+            <th>Id</th>
+            <th>Product Name</th>
+            <th>Category</th>
+            <th>Quantity</th>
+            <th>Order_by</th>
+            <th>Date</th>
+        </tr>
+        {% for order in staff_orders %}
+        <tr>
+            <td>{{ order.id }}</td>
+            <td>{{ order.product_name }}</td>
+            <td>{{ order.category }}</td>
+            <td>{{ order.quantity }}</td>
+            <th>{{ order.staff }}</th>
+            <td>{{ order.order_date }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <button class="print-button" onclick="printTable('staff Order Table', 'staff Order Table')">Print Orders</button>
+    <script>
+        function printTable(tableId, title) {
+            var printContents = "<h2>" + title + "</h2>" + document.getElementById(tableId).outerHTML;
+            var originalContents = document.body.innerHTML;
+            document.body.innerHTML = printContents;
+            window.print();
+            document.body.innerHTML = originalContents;
+        }
+    </script>    
+</body>
+</html>
