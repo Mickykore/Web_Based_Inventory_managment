@@ -1,180 +1,225 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Sales Reports</title>
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 70%;
-        }
-        
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-        }
-        
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>
+  <title>Sales Reports</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      padding: 20px;
+    }
+    
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 30px;
+    }
+    
+    form {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    label {
+      font-weight: bold;
+      margin-right: 10px;
+    }
+    
+    select {
+      padding: 5px;
+      font-size: 16px;
+    }
+    
+    button {
+      padding: 8px 16px;
+      font-size: 16px;
+      background-color: #4caf50;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+    
+    h2 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+    
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+    
+    th {
+      background-color: #f2f2f2;
+      font-weight: bold;
+    }
+    
+    .total-row {
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
-    <h1>Sales Reports</h1>
-    <form method="GET" action="{% url 'dashboard-reports' %}">
-        <label for="filter">Filter:</label>
-        <select id="filter" name="filter">
-          <option value="daily" {% if filter_type == 'daily' %}selected{% endif %}>Daily</option>
-          <option value="weekly" {% if filter_type == 'weekly' %}selected{% endif %}>Weekly</option>
-          <option value="monthly" {% if filter_type == 'monthly' %}selected{% endif %}>Monthly</option>
-          <option value="yearly" {% if filter_type == 'yearly' %}selected{% endif %}>Yearly</option>
-          <option value="all" {% if filter_type == 'all' %}selected{% endif %}>All</option>
-        </select>
-        <button type="submit">Apply</button>
-      </form>
-    <h2>Daily Sales</h2>
-    <table>
-        <tr>
-            <th>Product Name</th>
-            <th>Product Category</th>
-            <th>Purchased Price</th>
-            <th>Sale Price</th>
-            <th>Quantity</th>
-            <th>Profit</th>
-            <th>Total Sale</th>
-        </tr>
-        {% for sale in daily_sales %}
-        <tr>
-            <td>{{ sale.product_name }}</td>
-            <td>{{ sale.product_category }}</td>
-            <td>{{ sale.purchased_price }}</td>
-            <td>{{ sale.sale_price }}</td>
-            <td>{{ sale.quantity }}</td>
-            <td>{{ sale.profit }}</td>
-            <td>{{ sale.total_sale }}</td>
-        </tr>
-        {% endfor %}
-        <tr>
-            <th colspan="6" style="text-align:right">Total Sales:</th>
-            <td>{{ total_sales }}</td>
-        </tr>
-        <tr>
-            <th colspan="6" style="text-align:right">Total Profit:</th>
-            <td>{{ total_profit }}</td>
-        </tr>
-        <tr>
-            <th colspan="6" style="text-align:right">Total Sale Amount:</th>
-            <td>{{ total_sale_amount }}</td>
-        </tr>
-    </table>
-    <br>
-    <h2>Weekly Sales</h2>
-    <table>
-        <tr>
-            <th>Product Name</th>
-            <th>Product Category</th>
-            <th>Purchased Price</th>
-            <th>Sale Price</th>
-            <th>Quantity</th>
-            <th>Profit</th>
-            <th>Total Sale</th>
-        </tr>
-        {% for sale in weekly_sales %}
-        <tr>
-            <td>{{ sale.product_name }}</td>
-            <td>{{ sale.product_category }}</td>
-            <td>{{ sale.purchased_price }}</td>
-            <td>{{ sale.sale_price }}</td>
-            <td>{{ sale.quantity }}</td>
-            <td>{{ sale.profit }}</td>
-            <td>{{ sale.total_sale }}</td>
-        </tr>
-        {% endfor %}
-        <tr>
-            <th colspan="6" style="text-align:right">Total Sales:</th>
-            <td>{{ total_weekly_sales }}</td>
-        </tr>
-        <tr>
-            <th colspan="6" style="text-align:right">Total Profit:</th>
-            <td>{{ total_profit }}</td>
-        </tr>
-        <tr>
-            <th colspan="6" style="text-align:right">Total Sale Amount:</th>
-            <td>{{ total_sale_amount }}</td>
-        </tr>
-    </table>
-
-    <br>
-    <h2>Monthly Sales</h2>
-    <table>
-        <tr>
-            <th>Product Name</th>
-            <th>Product Category</th>
-            <th>Purchased Price</th>
-            <th>Sale Price</th>
-            <th>Quantity</th>
-            <th>Profit</th>
-            <th>Total Sale</th>
-        </tr>
-        {% for sale in monthly_sales %}
-        <tr>
-            <td>{{ sale.product_name }}</td>
-            <td>{{ sale.product_category }}</td>
-            <td>{{ sale.purchased_price }}</td>
-            <td>{{ sale.sale_price }}</td>
-            <td>{{ sale.quantity }}</td>
-            <td>{{ sale.profit }}</td>
-            <td>{{ sale.total_sale }}</td>
-        </tr>
-        {% endfor %}
-        <tr>
-            <th colspan="6" style="text-align:right">Total Sales:</th>
-            <td>{{ total_monthly_sales }}</td>
-        </tr>
-        <tr>
-            <th colspan="6" style="text-align:right">Total Profit:</th>
-            <td>{{ total_profit }}</td>
-        </tr>
-        <tr>
-            <th colspan="6" style="text-align:right">Total Sale Amount:</th>
-            <td>{{ total_sale_amount }}</td>
-        </tr>
-    </table>
-    
-    <br>
-    <h2>Yearly Sales</h2>
-    <table>
-        <tr>
-            <th>Product Name</th>
-            <th>Product Category</th>
-            <th>Purchased Price</th>
-            <th>Sale Price</th>
-            <th>Quantity</th>
-            <th>Profit</th>
-            <th>Total Sale</th>
-        </tr>
-        {% for sale in yearly_sales %}
-        <tr>
-            <td>{{ sale.product_name }}</td>
-            <td>{{ sale.product_category }}</td>
-            <td>{{ sale.purchased_price }}</td>
-            <td>{{ sale.sale_price }}</td>
-            <td>{{ sale.quantity }}</td>
-            <td>{{ sale.profit }}</td>
-            <td>{{ sale.total_sale }}</td>
-        </tr>
-        {% endfor %}
-        <tr>
-            <th colspan="6" style="text-align:right">Total Sales:</th>
-            <td>{{ total_yearly_sales }}</td>
-        </tr>
-        <tr>
-            <th colspan="6" style="text-align:right">Total Profit:</th>
-            <td>{{ total_profit }}</td>
-        </tr>
-        <tr>
-            <th colspan="6" style="text-align:right">Total Sale Amount:</th>
-            <td>{{ total_sale_amount }}</td>
-        </tr>
-    </table>
+  <h1>Sales Reports</h1>
+  <form method="GET" action="{% url 'dashboard-reports' %}">
+    <label for="filter">Filter:</label>
+    <select id="filter" name="filter">
+      <option value="daily" {% if filter_type == 'daily' %}selected{% endif %}>Daily</option>
+      <option value="weekly" {% if filter_type == 'weekly' %}selected{% endif %}>Weekly</option>
+      <option value="monthly" {% if filter_type == 'monthly' %}selected{% endif %}>Monthly</option>
+      <option value="yearly" {% if filter_type == 'yearly' %}selected{% endif %}>Yearly</option>
+      <option value="all" {% if filter_type == 'all' %}selected{% endif %}>All</option>
+    </select>
+    <button type="submit">Apply</button>
+  </form>
+  
+  <h2>Daily Sales</h2>
+  <table>
+    <tr>
+      <th>Product Name</th>
+      <th>Product Category</th>
+      <th>Purchased Price</th>
+      <th>Sale Price</th>
+      <th>Quantity</th>
+      <th>Profit</th>
+      <th>Total Sale</th>
+    </tr>
+    {% for sale in daily_sales %}
+    <tr>
+      <td>{{ sale.product_name }}</td>
+      <td>{{ sale.product_category }}</td>
+      <td>{{ sale.purchased_price }}</td>
+      <td>{{ sale.sale_price }}</td>
+      <td>{{ sale.quantity }}</td>
+      <td>{{ sale.profit }}</td>
+      <td>{{ sale.total_sale }}</td>
+    </tr>
+    {% endfor %}
+    <tr class="total-row">
+      <th colspan="6" style="text-align:right">Total Sales:</th>
+      <td>{{ total_sales }}</td>
+    </tr>
+    <tr class="total-row">
+      <th colspan="6" style="text-align:right">Total Profit:</th>
+      <td>{{ total_profit }}</td>
+    </tr>
+    <tr class="total-row">
+      <th colspan="6" style="text-align:right">Total Sale Amount:</th>
+      <td>{{ total_sale_amount }}</td>
+    </tr>
+  </table>
+  
+  <h2>Weekly Sales</h2>
+  <table>
+    <tr>
+      <th>Product Name</th>
+      <th>Product Category</th>
+      <th>Purchased Price</th>
+      <th>Sale Price</th>
+      <th>Quantity</th>
+      <th>Profit</th>
+      <th>Total Sale</th>
+    </tr>
+    {% for sale in weekly_sales %}
+    <tr>
+      <td>{{ sale.product_name }}</td>
+      <td>{{ sale.product_category }}</td>
+      <td>{{ sale.purchased_price }}</td>
+      <td>{{ sale.sale_price }}</td>
+      <td>{{ sale.quantity }}</td>
+      <td>{{ sale.profit }}</td>
+      <td>{{ sale.total_sale }}</td>
+    </tr>
+    {% endfor %}
+    <tr class="total-row">
+      <th colspan="6" style="text-align:right">Total Sales:</th>
+      <td>{{ total_weekly_sales }}</td>
+    </tr>
+    <tr class="total-row">
+      <th colspan="6" style="text-align:right">Total Profit:</th>
+      <td>{{ total_profit }}</td>
+    </tr>
+    <tr class="total-row">
+      <th colspan="6" style="text-align:right">Total Sale Amount:</th>
+      <td>{{ total_sale_amount }}</td>
+    </tr>
+  </table>
+  
+  <h2>Monthly Sales</h2>
+  <table>
+    <tr>
+      <th>Product Name</th>
+      <th>Product Category</th>
+      <th>Purchased Price</th>
+      <th>Sale Price</th>
+      <th>Quantity</th>
+      <th>Profit</th>
+      <th>Total Sale</th>
+    </tr>
+    {% for sale in monthly_sales %}
+    <tr>
+      <td>{{ sale.product_name }}</td>
+      <td>{{ sale.product_category }}</td>
+      <td>{{ sale.purchased_price }}</td>
+      <td>{{ sale.sale_price }}</td>
+      <td>{{ sale.quantity }}</td>
+      <td>{{ sale.profit }}</td>
+      <td>{{ sale.total_sale }}</td>
+    </tr>
+    {% endfor %}
+    <tr class="total-row">
+      <th colspan="6" style="text-align:right">Total Sales:</th>
+      <td>{{ total_monthly_sales }}</td>
+    </tr>
+    <tr class="total-row">
+      <th colspan="6" style="text-align:right">Total Profit:</th>
+      <td>{{ total_profit }}</td>
+    </tr>
+    <tr class="total-row">
+      <th colspan="6" style="text-align:right">Total Sale Amount:</th>
+      <td>{{ total_sale_amount }}</td>
+    </tr>
+  </table>
+  
+  <h2>Yearly Sales</h2>
+  <table>
+    <tr>
+      <th>Product Name</th>
+      <th>Product Category</th>
+      <th>Purchased Price</th>
+      <th>Sale Price</th>
+      <th>Quantity</th>
+      <th>Profit</th>
+      <th>Total Sale</th>
+    </tr>
+    {% for sale in yearly_sales %}
+    <tr>
+      <td>{{ sale.product_name }}</td>
+      <td>{{ sale.product_category }}</td>
+      <td>{{ sale.purchased_price }}</td>
+      <td>{{ sale.sale_price }}</td>
+      <td>{{ sale.quantity }}</td>
+      <td>{{ sale.profit }}</td>
+      <td>{{ sale.total_sale }}</td>
+    </tr>
+    {% endfor %}
+    <tr class="total-row">
+      <th colspan="6" style="text-align:right">Total Sales:</th>
+      <td>{{ total_yearly_sales }}</td>
+    </tr>
+    <tr class="total-row">
+      <th colspan="6" style="text-align:right">Total Profit:</th>
+      <td>{{ total_profit }}</td>
+    </tr>
+    <tr class="total-row">
+      <th colspan="6" style="text-align:right">Total Sale Amount:</th>
+      <td>{{ total_sale_amount }}</td>
+    </tr>
+  </table>
 </body>
 </html>
