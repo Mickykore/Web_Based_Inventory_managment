@@ -8,22 +8,22 @@
     <title>Document</title>
 </head>
 <body>
-    
+  <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
     <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
           <h2 class="account-heading">{{ user.username }}</h2>
           <p class="text-secondary">{{ user.email }}</p>
+    {% for message in messages %}
+      {% if message %}
+      <div class="alert alert-{{ message.tags }}">
+        {{ message }}
+      </div>
+      {% endif %}
+    {% endfor %}
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{  update_user_form|crispy }}
         {{  update_profile_form|crispy }}
         <button type="submit">update</button>
     </form>
-    {% if messages %}
-    {% for message in messages %}
-      <div class="alert alert-{{ message.tags }}">
-        {{ message }}
-      </div>
-    {% endfor %}
-  {% endif %}
 </body>
 </html>

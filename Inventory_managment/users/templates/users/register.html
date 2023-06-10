@@ -19,6 +19,13 @@
       <input type="tel" id="tel" placeholder="Phone Number" required>
       <input type="password" id="password" placeholder="Password" required>
       <input type="password" id="confirm_password" placeholder="Confirm Password" required> -->
+      {% for message in messages %}
+      {% if message %}
+      <div class="alert alert-{{ message.tags }}">
+        {{ message }}
+      </div>
+      {% endif %}
+    {% endfor %}
       {{ form|crispy }}
       <button type="submit">Sign Up</button>
     </form>

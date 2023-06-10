@@ -1,12 +1,11 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
 from .reports import *
 from django.contrib.auth.decorators import login_required
 from .models import Product, Category, Sales, OrderByCustomer, OrderByStaff
 from .form import ProductForm, CategoryForm, SalesForm, CustomerOrderForm, StaffOrderForm
 import itertools
 from datetime import datetime,date
-
+from django.contrib import messages
 @login_required(login_url='/login/')
 def home(request):
     
@@ -28,10 +27,14 @@ def product(request):
         form = ProductForm(request.POST)
         if form.is_valid():
             form.save()
+            name = form.cleaned_data.get('name')
+            messages.success(request, f'product {name} added successfully')
             return redirect('dashboard-product')
         add_categories = CategoryForm(request.POST)
         if add_categories.is_valid():
             add_categories.save()
+            category = add_categories.cleaned_data.get('category')
+            messages.success(request, f'{category} added successfully')
             return redirect('dashboard-product')
     else:
         form = ProductForm()

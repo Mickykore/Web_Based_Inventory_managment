@@ -19,6 +19,13 @@
 </head>
 <body>
     <h2>Products</h2>
+    {% for message in messages %}
+      {% if message %}
+      <div class="alert alert-{{ message.tags }}">
+        {{ message }}
+      </div>
+      {% endif %}
+    {% endfor %}
     <h3>Add Category</h3>
     <form method="POST">
         {% csrf_token %}

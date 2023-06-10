@@ -9,12 +9,10 @@ def register(request):
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
-            print(f"{username}")
-            messages.success(request, f'Account created successfully pleace login')
+            messages.success(request, f'Account for {username} created successfully pleace login')
             return redirect('login')
     else:
         form = UserRegisterForm()
-        messages.error(request, f'error')
     return render(request, 'users/register.html', {'form': form})
 @login_required
 def profile(request):
