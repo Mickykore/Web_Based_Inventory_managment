@@ -1,3 +1,5 @@
+<!-- #TODO: make it real-time view the product, sales, order and revenues  -->
+
 {% load crispy_forms_tags %}
 {% load static %}
 <!DOCTYPE html>
@@ -11,22 +13,22 @@
 <body>
     <div class="dashboard-container">
         <div class="sidebar">
-            <h1><a href="index.html">Dashboard</a></h1>
+            <h1><a href="{% url 'dashboard_landing' %}">MD-Inventory</a></h1>
             <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Products</a></li>
-                <li><a href="#">Orders</a></li>
-                <li><a href="#">Customers</a></li>
-                <li><a href="#">Reports</a></li>
-                <li><a href="#">Settings</a></li>
+                <li><a href="{% url 'dashboard_home' %}">Dashboard</a></li>
+                <li><a href="{% url 'dashboard-product' %}">Products</a></li>
+                <li><a href="{% url 'dashboard-sales' %}">Sales</a></li>
+                <li><a href="{% url 'dashboard-orders' %}">Orders</a></li>
+                <li><a href="{% url 'dashboard-reports' %}">Reports</a></li>
+                <li><a href="{% url 'profile' %}">Profile</a></li>
             </ul>
         </div>
         <div class="main-content">
             <div class="header">
-                <h2>Welcome, Dagim!</h2>
+                <h2>Welcome {{ user.username }}</h2>
                 <div class="user-profile">
-                    <img src="{{ STATIC_URL }}/Dagwal.png" alt="Profile Picture">
-                    <span>Dagim Wallelgne</span>
+                    <img src="{{ user.profile.image.url }}" alt="Profile Picture">
+                    <span>{{ user.username }}</span>
                 </div>
             </div>
             <div class="content">
@@ -34,14 +36,14 @@
                 <p>Welcome to the dashboard. Here you can manage your orders, customers, products, and generate reports.</p>
                 <div class="card">
                     <h4>Total Products</h4>
-                    <p>20</p>
+                    <p>14</p>
                 </div>
                 <div class="card">
                     <h4>Total Orders</h4>
                     <p>40</p>
                 </div>
                 <div class="card">
-                    <h4>Total Customers</h4>
+                    <h4>Total Sales</h4>
                     <p>50</p>
                 </div>
                 <div class="card">

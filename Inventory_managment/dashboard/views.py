@@ -10,6 +10,7 @@ from django.contrib import messages
 @login_required(login_url='/login/')
 # Dashboard
 def home(request):
+    
     return render(request, 'dashboard/home.html')
 
 # Landing Page   

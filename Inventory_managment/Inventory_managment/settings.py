@@ -139,4 +139,4 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'mikiyasayele1994@gmail.com'
 EMAIL_HOST_PASSWORD = 'szrgpgkpszbuqlvb'
-DEFAULT_FROM_EMAIL = 'mikiyasayele1994@gmail.com'
+# DEFAULT_FROM_EMAIL = 'mikiyasayele1994@gmail.com'
