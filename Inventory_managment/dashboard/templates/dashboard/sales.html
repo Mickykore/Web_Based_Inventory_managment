@@ -1,0 +1,83 @@
+<!-- #TODO: Change the bg of "Add sale" and adding more styles on the content of the body-->
+
+{% load crispy_forms_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'dashboard/sales.css' %}">
+    <title>Sales Page</title>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="sidebar">
+            <h1><a href="{% url 'dashboard_landing' %}">MD-Inventory</a></h1>
+            <ul>
+                <li><a href="{% url 'dashboard_home' %}">Dashboard</a></li>
+                <li><a href="{% url 'dashboard-product' %}">Products</a></li>
+                <li><a href="{% url 'dashboard-sales' %}">Sales</a></li>
+                <li><a href="{% url 'dashboard-orders' %}">Orders</a></li>
+                <li><a href="{% url 'dashboard-reports' %}">Reports</a></li>
+                <li><a href="{% url 'profile' %}">Profile</a></li>
+            </ul>
+        </div>
+        <div class="main-content">
+            <div class="header">
+                <h2>Sales</h2>
+                <!-- <div class="user-profile">
+                    <img src="" alt="Profile Picture">
+                    <span>Dagim Wallelgne</span>
+                </div> -->
+            </div>
+            <div class="content">
+                <h3>Add Sale</h3>
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ sales_form|crispy }}
+                    <button type="submit">Add Sale</button>
+                </form>
+                <h3>Daily Sales</h3>
+                <table class="sales-table">
+                    <tr>
+                        <th>No.</th>
+                        <th>Product Name</th>
+                        <th>Product Category</th>
+                        <th>Purchased Price</th>
+                        <th>Sale Price</th>
+                        <th>Quantity</th>
+                        <th>Total Sale</th>
+                        <th>Sale Date</th>
+                        <th>Action</th>
+                    </tr>
+                    {% for sale in daily_sales %}
+                        <tr>
+                            <td>{{ sale.ID }}</td>
+                            <td>{{ sale.product_name }}</td>
+                            <td>{{ sale.product_category }}</td>
+                            <td>{{ sale.purchased_price }}</td>
+                            <td>{{ sale.sale_price }}</td>
+                            <td>{{ sale.quantity }}</td>
+                            <td>{{ sale.total_sale }}</td>
+                            <td>{{ sale.sale_date }}</td>
+                            <td>
+                                <a class="btn btn-info btn-sm"
+                                    href="{% url 'dashboard-update_sales' sale.id %}">Edit</a>
+                                <a class="btn btn-danger btn-sm"
+                                    href="{% url 'dashboard-delete_sales' sale.id %}">Delete</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <th colspan="6" style="text-align:right">Total Amount:</th>
+                        <td>{{ total_sale_amount }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+

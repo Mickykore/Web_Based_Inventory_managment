@@ -1,0 +1,40 @@
+{% load crispy_forms_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Product</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'dashboard/update.css' %}">
+</head>
+<body>
+    <div class="sidebar">
+        <h1><a href="{% url 'dashboard_landing' %}">MD-Inventory</a></h1>
+        <ul>
+            <li><a href="{% url 'dashboard_home' %}">Dashboard</a></li>
+            <li><a href="{% url 'dashboard-product' %}">Products</a></li>
+            <li><a href="{% url 'dashboard-sales' %}">Sales</a></li>
+            <li><a href="{% url 'dashboard-orders' %}">Orders</a></li>
+            <li><a href="{% url 'dashboard-reports' %}">Reports</a></li>
+            <li><a href="{% url 'profile' %}">Profile</a></li>
+        </ul>
+    </div>
+    <div class="main-content">
+        <div class="container">
+            <h3>Update Product</h3>
+            <hr>
+            <form method="POST">
+                <div class="alert alert-danger">
+                    <h4>Are you sure you want to update "{{ product }}"?</h4>
+                </div>
+                {% csrf_token %}
+                {{ form|crispy }}
+                <a class="btn btn-secondary btn-sm" href="{% url 'dashboard-product' %}">Cancel</a>
+                <input class="btn btn-danger btn-sm" type="submit" value="Confirm">
+            </form>
+        </div>
+    </div>
+</body>
+</html>

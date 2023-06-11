@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+  <link rel="stylesheet" type="text/css" href="{% static 'dashboard/Landing/contact.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'dashboard/Landing/styles.css' %}">
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="logo-container">
+      <img src="https://img.freepik.com/premium-vector/logistic-logo-template-icon-illustration-brand-identity-isolated-flat-illustration-vector-graphic_7109-1984.jpg?w=740" alt="Logo">
+      <h1 class="logo-text">MD-INVENTORY</h1>
+    </div>
+    <!-- nav bar -->
+    <nav class="nav-buttons">
+      <a href="{% url 'dashboard_landing' %}" class="nav-button">Home</a>
+      <a href="{% url 'landing_about' %}" class="nav-button">About Us</a>
+      <a href="{% url 'landing_features' %}" class="nav-button">Features</a>
+      <a href="{% url 'landing_contact' %}" class="nav-button">Contact</a>
+      <div class="nav-dropdown">
+        <button class="nav-button">Account &#9662;</button>
+        <div class="dropdown-content">
+          <a href="{% url 'login' %}">Sign In</a>
+          <a href="{% url 'register' %}">Sign Up</a>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <div class="container">
+    <h1>Contact Us</h1>
+    <form class="" action="mailto:dagimwalelegne@gmail.com" autocomplete="off" method="post" enctype="text/plain" target="_blank ">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="Name" placeholder="Your Name" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="Email" placeholder="Your Email" required>
+      </div>
+      <div class="form-group">
+        <label for="message">Message</label>
+        <textarea id="message" name="Message" placeholder="Your Message" required></textarea>
+      </div>
+      <button type="submit" class="submit-btn">Send Message</button>
+    </form>
+  </div>
+  <footer>
+    <div class="footer-content">
+      <div class="footer-links">
+        <a href="#" class="social-icon"><i class="fab fa-facebook"></i></a>
+        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+      </div>
+      <p>&copy; 2023 MDInventory App. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>

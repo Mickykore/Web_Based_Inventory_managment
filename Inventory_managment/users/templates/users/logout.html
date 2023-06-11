@@ -1,0 +1,21 @@
+{% load static %}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'users/logout.css' %}">
+    <title>Logged Out</title>
+    
+</head>
+<body>
+    <h2>You have been logged out</h2>
+    <p>Thank you for using our services. We look forward to seeing you again soon.</p>
+    <div class="border-top pt-3">
+        <small class="text-muted">
+            <a href="{% url 'login' %}">Log In Again</a>
+        </small>
+    </div>
+</body>
+</html>

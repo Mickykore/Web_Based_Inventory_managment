@@ -1,0 +1,57 @@
+<!-- #TODO: make it real-time view the product, sales, order and revenues  -->
+
+{% load crispy_forms_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'dashboard/home.css' %}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="sidebar">
+            <h1><a href="{% url 'dashboard_landing' %}">MD-Inventory</a></h1>
+            <ul>
+                <li><a href="{% url 'dashboard_home' %}">Dashboard</a></li>
+                <li><a href="{% url 'dashboard-product' %}">Products</a></li>
+                <li><a href="{% url 'dashboard-sales' %}">Sales</a></li>
+                <li><a href="{% url 'dashboard-orders' %}">Orders</a></li>
+                <li><a href="{% url 'dashboard-reports' %}">Reports</a></li>
+                <li><a href="{% url 'profile' %}">Profile</a></li>
+            </ul>
+        </div>
+        <div class="main-content">
+            <div class="header">
+                <h2>Welcome {{ user.username }}</h2>
+                <div class="user-profile">
+                    <img src="{{ user.profile.image.url }}" alt="Profile Picture">
+                    <span>{{ user.username }}</span>
+                </div>
+            </div>
+            <div class="content">
+                <h3>Overview</h3>
+                <p>Welcome to the dashboard. Here you can manage your orders, customers, products, and generate reports.</p>
+                <div class="card">
+                    <h4>Total Products</h4>
+                    <p>14</p>
+                </div>
+                <div class="card">
+                    <h4>Total Orders</h4>
+                    <p>40</p>
+                </div>
+                <div class="card">
+                    <h4>Total Sales</h4>
+                    <p>50</p>
+                </div>
+                <div class="card">
+                    <h4>Total Revenue</h4>
+                    <p>$12,000</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

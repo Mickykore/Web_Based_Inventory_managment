@@ -1,0 +1,190 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sales Report</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'dashboard/report.css' %}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="sidebar">
+            <h1><a href="{% url 'dashboard_landing' %}">MD-Inventory</a></h1>
+            <ul>
+                <li><a href="{% url 'dashboard_home' %}">Dashboard</a></li>
+                <li><a href="{% url 'dashboard-product' %}">Products</a></li>
+                <li><a href="{% url 'dashboard-sales' %}">Sales</a></li>
+                <li><a href="{% url 'dashboard-orders' %}">Orders</a></li>
+                <li><a href="{% url 'dashboard-reports' %}">Reports</a></li>
+                <li><a href="{% url 'profile' %}">Profile</a></li>
+            </ul>
+            <a href="#" class="back-to-top">Back to Top</a>
+        </div>
+        <div class="content">
+            <h1>Sales Reports</h1>
+            <div class="sales-container">
+                <form method="GET" action="{% url 'dashboard-reports' %}">
+                    <label for="date">Date:</label>
+                    <input type="date" id="date" name="date" value="{% if selected_date %}{{ selected_date }}{% endif %}">
+                    <button type="submit">Apply</button>
+                </form>
+
+                <div class="sales-section">
+                    <h2>Daily Sales</h2>
+                    <p>{{ daily_sales.0.sale_date }}</p>
+                    <table>
+                        <tr>
+                            <th>Product Name</th>
+                            <th>Product Category</th>
+                            <th>Purchased Price</th>
+                            <th>Sale Price</th>
+                            <th>Profit</th>
+                            <th>Quantity</th>
+                            <th>Total Sale</th>
+                            <th>Total Profit</th>
+                        </tr>
+                        {% for sale in daily_sales %}
+                        <tr>
+                            <td>{{ sale.product_name }}</td>
+                            <td>{{ sale.product_category }}</td>
+                            <td>{{ sale.purchased_price }}</td>
+                            <td>{{ sale.sale_price }}</td>
+                            <td>{{ sale.profit }}</td>
+                            <td>{{ sale.quantity }}</td>
+                            <td>{{ sale.total_daily_sale_amount }}</td>
+                            <td>{{ sale.total_daily_profit }}</td>
+                        </tr>
+                        {% endfor %}
+                        <tr>
+                            <th colspan="6" style="text-align:right">Total Amount:</th>
+                            <td>{{ total_daily_sale_amount }}</td>
+                            <td>{{ total_daily_profit }}</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="sales-section">
+                    <h2>Weekly Sales</h2>
+                    <p>From {{ weekly_sales.0.sale_date }} - </p>
+                    <table>
+                        <tr>
+                            <th>Product Name</th>
+                            <th>Product Category</th>
+                            <th>Purchased Price</th>
+                            <th>Sale Price</th>
+                            <th>Profit</th>
+                            <th>Quantity</th>
+                            <th>Total Sale</th>
+                            <th>Total Profit</th>
+                        </tr>
+                        {% for sale in weekly_sales %}
+                        <tr>
+                            <td>{{ sale.product_name }}</td>
+                            <td>{{ sale.product_category }}</td>
+                            <td>{{ sale.purchased_price }}</td>
+                            <td>{{ sale.sale_price }}</td>
+                            <td>{{ sale.profit }}</td>
+                            <td>{{ sale.quantity }}</td>
+                            <td>{{ sale.total_weekly_sale_amount }}</td>
+                            <td>{{ sale.total_weekly_profit }}</td>
+                        </tr>
+                        {% endfor %}
+                        <tr>
+                            <th colspan="6" style="text-align:right">Total Amount:</th>
+                            <td>{{ total_weekly_sale_amount }}</td>
+                            <td>{{ total_weekly_profit }}</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="sales-section">
+                    <h2>Monthly Sales</h2>
+                    <p>{{ monthly_sales.0.sale_date|date:"F" }}</p>
+                    <table>
+                        <tr>
+                            <th>Product Name</th>
+                            <th>Product Category</th>
+                            <th>Purchased Price</th>
+                            <th>Sale Price</th>
+                            <th>Profit</th>
+                            <th>Quantity</th>
+                            <th>Total Sale</th>
+                            <th>Total Profit</th>
+                        </tr>
+                        {% for sale in monthly_sales %}
+                        <tr>
+                            <td>{{ sale.product_name }}</td>
+                            <td>{{ sale.product_category }}</td>
+                            <td>{{ sale.purchased_price }}</td>
+                            <td>{{ sale.sale_price }}</td>
+                            <td>{{ sale.profit }}</td>
+                            <td>{{ sale.quantity }}</td>
+                            <td>{{ sale.total_monthly_sale_amount }}</td>
+                            <td>{{ sale.total_monthly_profit }}</td>
+                        </tr>
+                        {% endfor %}
+                        <tr>
+                            <th colspan="6" style="text-align:right">Total Amount:</th>
+                            <td>{{ total_monthly_sale_amount }}</td>
+                            <td>{{ total_monthly_profit }}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="sales-section">
+                    <h2>Yearly Sales</h2>
+                    <p>{{ yearly_sales.0.sale_date.year }}</p>
+                    <table>
+                        <tr>
+                            <th>Product Name</th>
+                            <th>Product Category</th>
+                            <th>Purchased Price</th>
+                            <th>Sale Price</th>
+                            <th>Profit</th>
+                            <th>Quantity</th>
+                            <th>Total Sale</th>
+                            <th>Total profit</th>
+                        </tr>
+                        {% for sale in yearly_sales %}
+                        <tr>
+                            <td>{{ sale.product_name }}</td>
+                            <td>{{ sale.product_category }}</td>
+                            <td>{{ sale.purchased_price }}</td>
+                            <td>{{ sale.sale_price }}</td>
+                            <td>{{ sale.profit }}</td>
+                            <td>{{ sale.quantity }}</td>
+                            <td>{{ sale.total_yearly_sale_amount }}</td>
+                            <td>{{ sale.total_yearly_profit }}</td>
+                        </tr>
+                        {% endfor %}
+                        <tr>
+                            <th colspan="6" style="text-align:right">Total Amount:</th>
+                            <td>{{ total_yearly_sale_amount }}</td>
+                            <td>{{ total_yearly_profit }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.onscroll = function () {
+            scrollFunction();
+        };
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                document.querySelector('.back-to-top').style.opacity = '1';
+            } else {
+                document.querySelector('.back-to-top').style.opacity = '0';
+            }
+        }
+
+        function scrollToTop() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+
+        document.querySelector('.back-to-top').addEventListener('click', scrollToTop);
+    </script>
+</body>
+</html>

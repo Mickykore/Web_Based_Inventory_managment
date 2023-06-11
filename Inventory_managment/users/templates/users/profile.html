@@ -1,0 +1,51 @@
+{% load crispy_forms_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'users/profile.css' %}">
+    <title>Profile</title>
+    
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="sidebar">
+            <h1><a href="{% url 'dashboard_home' %}">MD-Inventory</a></h1>
+            <ul>
+                <li><a href="{% url 'dashboard_home' %}">Home</a></li>
+                <li><a href="{% url 'dashboard-product' %}">Products</a></li>
+                <li><a href="{% url 'dashboard-sales' %}">Sales</a></li>
+                <li><a href="{% url 'dashboard-orders' %}">Orders</a></li>
+                <li><a href="{% url 'dashboard-reports' %}">Reports</a></li>
+                <li><a href="{% url 'profile' %}">Profile</a></li>
+            </ul>
+        </div>
+        <div class="main-content">
+            <div class="content profile-content">
+                <a class="logout-button" href="{% url 'logout' %}">Logout</a>
+                <div class="profile-details">
+                    <img class="profile-image" src="{{ user.profile.image.url }}" alt="Profile Picture">
+                    <h2 class="profile-heading">{{ user.username }}</h2>
+                    <p class="profile-email">{{ user.email }}</p>
+                </div>
+                <form method="POST" enctype="multipart/form-data" class="update-form">
+                    {% csrf_token %}
+                    {{ update_user_form|crispy }}
+                    {{ update_profile_form|crispy }}
+                    <button type="submit">Update Profile</button>
+                </form>
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

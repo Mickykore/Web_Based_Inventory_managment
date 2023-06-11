@@ -1,0 +1,128 @@
+<!-- #TODO1: give the customer and staff id automatically 
+     #TODO2: the print functionality and automatic recommendation
+-->
+
+{% load crispy_forms_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Order Page</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'dashboard/order.css' %}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="sidebar">
+            <h1><a href="{% url 'dashboard_landing' %}">MD-Inventory</a></h1>
+            <ul>
+                <li><a href="{% url 'dashboard_home' %}">Dashboard</a></li>
+                <li><a href="{% url 'dashboard-product' %}">Products</a></li>
+                <li><a href="{% url 'dashboard-sales' %}">Sales</a></li>
+                <li><a href="{% url 'dashboard-orders' %}">Orders</a></li>
+                <li><a href="{% url 'dashboard-reports' %}">Reports</a></li>
+                <li><a href="{% url 'profile' %}">Profile</a></li>
+            </ul>
+        </div>
+        <div class="content">
+            <h1>Orders</h1>
+            <div class="form-container">
+                <div class="form-wrapper">
+                    <h2>Order by Customer</h2>
+                    <form method="POST">
+                        {% csrf_token %}
+                        {{ customer_form|crispy }}
+                        <button type="submit" name="customer_order" class="btn">Add Order</button>
+                    </form>
+                </div>
+
+                <div class="form-wrapper">
+                    <h2>Order by Staff</h2>
+                    <form method="POST">
+                        {% csrf_token %}
+                        {{ staff_form|crispy }}
+                        <button type="submit" name="staff_order" class="btn">Add Order</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <h2>Customer Order Table</h2>
+                <table id="customer-table">
+                    <tr>
+                        <th>Id</th>
+                        <th>Product Name</th>
+                        <th>Category</th>
+                        <th>Quantity</th>
+                        <th>Order_by</th>
+                        <th>Phone No.</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                    </tr>
+                    {% for order in customer_orders %}
+                    <tr>
+                        <td>{{ order.id }}</td>
+                        <td>{{ order.product_name }}</td>
+                        <td>{{ order.category }}</td>
+                        <td>{{ order.order_quantity }}</td>
+                        <td>{{ order.customer_name }}</td>
+                        <td>{{ order.customer_phone_no }}</td>
+                        <td>{{ order.order_date }}</td>
+                        <td>
+                            <a class="btn btn-info btn-sm" href="{% url 'dashboard-update_customer_order' order.id %}">Edit</a>
+                            <a class="btn btn-danger btn-sm" href="{% url 'dashboard-delete_customer_order' order.id %}">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                <button class="print-button" onclick="printTable('Customer Order Table', 'customer-table')">Print Orders</button>
+            </div>
+
+            <div class="table-container">
+                <h2>Staff Order Table</h2>
+                <table id="staff-table">
+                    <tr>
+                        <th>Id</th>
+                        <th>Product Name</th>
+                        <th>Category</th>
+                        <th>Quantity</th>
+                        <th>Order_by</th>
+                        <th>Phone No.</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                    </tr>
+                    {% for order in staff_orders %}
+                    <tr>
+                        <td>{{ order.id }}</td>
+                        <td>{{ order.product_name }}</td>
+                        <td>{{ order.category }}</td>
+                        <td>{{ order.order_quantity }}</td>
+                        <th>{{ order.staff_name }}</th>
+                        <td>{{ order.staff_phone_no }}</td>
+                        <td>{{ order.order_date }}</td>
+                        <td>
+                            <a class="btn btn-info btn-sm" href="{% url 'dashboard-update_staff_order' order.id %}">Edit</a>
+                            <a class="btn btn-danger btn-sm" href="{% url 'dashboard-delete_staff_order' order.id %}">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                <button class="print-button" onclick="printTable('Staff Order Table', 'staff-table')">Print Orders</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function printTable(title, tableId) {
+            var printWindow = window.open('', '', 'width=800,height=600');
+            printWindow.document.write('<html><head><title>' + title + '</title>');
+            printWindow.document.write('<style>table{border-collapse: collapse; width: 100%;}th, td{border: 1px solid #dddddd; text-align: left; padding: 8px;}</style>');
+            printWindow.document.write('</head><body>');
+            printWindow.document.write('<h1>' + title + '</h1>');
+            printWindow.document.write(document.getElementById(tableId).outerHTML);
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+            printWindow.print();
+        }
+    </script>
+</body>
+</html>
