@@ -1,0 +1,32 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f8f8;
+    color: #333333;
+    text-align: center;
+}
+
+h2 {
+    margin-top: 50px;
+    font-size: 28px;
+    color: #555555;
+}
+
+.border-top {
+    border-top: 1px solid #dddddd;
+    padding-top: 20px;
+    margin-top: 20px;
+}
+
+.text-muted {
+    color: #888888;
+    font-size: 14px;
+}
+
+.text-muted a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.text-muted a:hover {
+    text-decoration: underline;
+}
