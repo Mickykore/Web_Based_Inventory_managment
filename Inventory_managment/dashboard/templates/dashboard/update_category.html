@@ -1,23 +1,42 @@
 {% load crispy_forms_tags %}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'dashboard/update.css' %}">
+    <title>Update Category</title>
 </head>
 <body>
-    <h3>Update product</h3>
-    <hr>
-    <form method="POST">
-        <div class="alert alert-danger">
-            <h4>Are you sure, you want to update {{ categories }}?</h4>
+    <div class="dashboard-container">
+        <div class="sidebar">
+            <h1><a href="index.html">Dashboard</a></h1>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Products</a></li>
+                <li><a href="#">Orders</a></li>
+                <li><a href="#">Customers</a></li>
+                <li><a href="#">Reports</a></li>
+                <li><a href="#">Settings</a></li>
+            </ul>
         </div>
-        {% csrf_token %}
-        {{ form|crispy }}
-        <a class="btn btn-secondary btn-sm" href="{% url 'dashboard-product' %}">Cancel</a>
-        <input class="btn btn-danger btn-sm" type="submit" value="Confirm">
-    </form>
+        <div class="main-content">
+            <div class="container">
+                <h3>Update Category</h3>
+                <hr>
+                <form method="POST">
+                    <div class="alert alert-danger">
+                        <h4>Are you sure you want to update "{{ categories }}"?</h4>
+                    </div>
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <a class="btn btn-secondary btn-sm" href="{% url 'dashboard-product' %}">Cancel</a>
+                    <input class="btn btn-danger btn-sm" type="submit" value="Confirm">
+                </form>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

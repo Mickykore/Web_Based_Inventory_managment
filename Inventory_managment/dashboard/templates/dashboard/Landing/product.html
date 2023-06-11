@@ -1,0 +1,65 @@
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        function filterProducts() {
+            var category = document.getElementById('category').value;
+            var form = document.getElementById('filter-form');
+            form.action = '?category=' + category;
+            form.submit();
+        }
+    </script>
+</head>
+<body>
+    <h2>Products</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {{ add_categories|crispy }}
+        <button type="submit">Add Category</button>
+    </form>
+    <br>
+    <form id="filter-form" method="GET">
+        {% csrf_token %}
+        <label for="category">Filter by Category:</label>
+        <select name="category" id="category" onchange="filterProducts()">
+            <option value="">All</option>
+            {% for category in categories %}
+                <option value="{{ category.category }}"
+                    {% if selected_category == category.category %}selected{% endif %}>
+                    {{ category.category }}
+                </option>
+            {% endfor %}
+        </select>
+    </form>
+    <br>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit">Add Product</button>
+    </form>
+    <br>
+    <table>
+        <tr>
+            <th>Product Name</th>
+            <th>Product Category</th>
+            <th>Purchased Price</th>
+            <th>Quantity</th>
+            <th>Date Purchased</th>
+        </tr>
+        {% for product in products %}
+        <tr>
+            <td>{{ product.name }}</td>
+            <td>{{ product.category.category }}</td>
+            <td>{{ product.price }}</td>
+            <td>{{ product.quantity }}</td>
+            <td>{{ product.date_purchased }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
