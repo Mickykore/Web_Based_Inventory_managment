@@ -6,13 +6,25 @@ from .form import ProductForm, CategoryForm, SalesForm, CustomerOrderForm, Staff
 import itertools
 from datetime import datetime,date
 from django.contrib import messages
+
 @login_required(login_url='/login/')
+# Dashboard
 def home(request):
-    
     return render(request, 'dashboard/home.html')
-    # return HttpResponse('<h1>Home page</h1>')
-    
-    
+
+# Landing Page   
+def landing(request):
+    return render(request, 'dashboard/Landing/index.html')
+# About Page
+def about(request):
+    return render(request, 'dashboard/Landing/about.html')
+# Features Page
+def features(request):
+    return render(request, 'dashboard/Landing/features.html')
+# Contacts Page
+def contact(request):
+    return render(request, 'dashboard/Landing/contact.html')
+
 @login_required(login_url='/login/')
 def product(request):
     categories = Category.objects.all()

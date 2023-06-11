@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Inventory App</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-  <link rel="stylesheet" href="./styles/styles.css">
+  <link rel="stylesheet" type="text/css" href="{% static 'dashboard/Landing/styles.css' %}">
 </head>
 <body>
   <!-- Header -->
@@ -17,15 +18,15 @@
 
     <!-- nav bar -->
     <nav class="nav-buttons">
-      <a href="index.html" class="nav-button">Home</a>
-      <a href="about.html" class="nav-button">About Us</a>
-      <a href="features.html" class="nav-button">Features</a>
-      <a href="contact.html" class="nav-button">Contact</a>
+      <a href="{% url 'dashboard_landing' %}" class="nav-button">Home</a>
+      <a href="{% url 'landing_about' %}" class="nav-button">About Us</a>
+      <a href="{% url 'landing_features' %}" class="nav-button">Features</a>
+      <a href="{% url 'landing_contact' %}" class="nav-button">Contact</a>
       <div class="nav-dropdown">
         <button class="nav-button">Account &#9662;</button>
         <div class="dropdown-content">
-          <a href="admin/login.html">Sign In</a>
-          <a href="admin/register.html">Sign Up</a>
+          <a href="{% url 'login' %}">Sign In</a>
+          <a href="{% url 'register' %}">Sign Up</a>
         </div>
       </div>
     </nav>
@@ -35,7 +36,7 @@
     <div class="hero-content">
       <h1>Welcome to the Inventory App</h1>
       <p>A modern solution for managing your inventory with ease.</p>
-      <a href="admin/register.html" class="cta-btn">Get Started</a>
+      <a href="{% url 'register' %}" class="cta-btn">Get Started</a>
     </div>
   </section>
 
