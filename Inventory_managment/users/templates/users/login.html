@@ -4,9 +4,41 @@
 <html>
 <head>
   <title>Inventory Login Page</title>
-  <link rel="stylesheet" type="text/css" href="{% static 'users/styles.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'users/login-styles.css' %}">
 </head>
 <body>
+  <!-- Header -->
+  <header>
+    <div class="logo-container">
+      <img src="https://img.freepik.com/premium-vector/logistic-logo-template-icon-illustration-brand-identity-isolated-flat-illustration-vector-graphic_7109-1984.jpg?w=740" alt="Logo">
+      <h1 class="logo-text">MD-INVENTORY</h1>
+    </div>
+
+    <!-- nav bar -->
+    <nav class="nav-buttons">
+      <a href="{% url 'dashboard_landing' %}" class="nav-button">Home</a>
+      <a href="{% url 'landing_about' %}" class="nav-button">About Us</a>
+      <a href="{% url 'landing_features' %}" class="nav-button">Features</a>
+      <a href="{% url 'landing_contact' %}" class="nav-button">Contact</a>
+      {% if user.is_authenticated %}
+      <div class="nav-dropdown">
+        <button class="nav-button">Profile &#9662;</button>
+        <div class="dropdown-content">
+          <a class="" href="{% url 'dashboard_home' %}">Dashboard</a>
+          <a class="" href="{% url 'logout' %}">Logout</a>  
+        </div>
+      </div>
+      {% else %}
+      <div class="nav-dropdown">
+        <button class="nav-button">Account &#9662;</button>
+        <div class="dropdown-content">
+          <a href="{% url 'login' %}">Sign In</a>
+          <a href="{% url 'register' %}">Sign Up</a>
+        </div>
+      </div>
+      {% endif %}
+    </nav>
+  </header>
   <h1>Inventory Login Page</h1>
   <div id="login-form-container">
     <h2>Sign In</h2>

@@ -5,11 +5,12 @@ body {
 }
 
 h1 {
-  margin-top: 80px;
+  margin-top: 20px;
   text-align: center;
   font-size: 2em;
   margin-bottom: 20px;
 }
+
 
 #login-form-container,
 #signup-form-container {
