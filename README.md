@@ -44,7 +44,7 @@ To run the Django Inventory App on your local machine, follow these steps:
 2. Change to the project's directory:
 
    ```shell
-   cd django-inventory-app
+   cd Web_Based_Inventory_managment
    ```
 
 3. Create a virtual environment:
