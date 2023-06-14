@@ -110,10 +110,10 @@ To run the Django Inventory App on your local machine, follow these steps:
 ![Sales Page](https://i.imgur.com/nzuB0zQ.png)
 
 #### Add Order in order page
-![Order Page](https://i.imgur.com/NqXgS3i.png)
+![Order Page](https://i.imgur.com/9egzdDN.png)
 
 #### View Reports in 
-![Report Page](https://i.imgur.com/BwqV12c.png)
+![Report Page](https://i.imgur.com/VHNpAGZ.png)
 
 ---
 
