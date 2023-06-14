@@ -1,0 +1,150 @@
+{% load crispy_forms_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product Page</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'dashboard/product.css' %}">
+    <script>
+        function filterProducts() {
+            var category = document.getElementById('category').value;
+            var form = document.getElementById('filter-form');
+            form.action = '?category=' + category;
+            form.submit();
+        }
+    </script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="sidebar">
+            <h1><a href="{% url 'dashboard_landing' %}">MD-Inventory</a></h1>
+            <ul>
+                <li><a href="{% url 'dashboard_home' %}">Dashboard</a></li>
+                <li><a href="{% url 'dashboard-product' %}">Products</a></li>
+                <li><a href="{% url 'dashboard-sales' %}">Sales</a></li>
+                <li><a href="{% url 'dashboard-orders' %}">Orders</a></li>
+                <li><a href="{% url 'dashboard-reports' %}">Reports</a></li>
+                <li><a href="{% url 'profile' %}">Profile</a></li>
+                <li><a class="" href="{% url 'logout' %}">Logout</a></li>
+            </ul>
+            <a href="#" class="back-to-top">Back to Top</a>
+        </div>
+        <div class="content">
+            <h1>Product Page</h1>
+            <div class="content">
+                <div class="form-container">
+                    <div class="form-wrapper">
+                        <h3>Add Category</h3>
+                        <form method="POST">
+                            {% csrf_token %}
+                            {{ add_categories|crispy }}
+                            <button type="submit" class="btn">Add Category</button>
+                        </form>
+                    </div>
+                    <div class="form-wrapper">
+                        <h3>Add Product</h3>
+                        <form method="POST">
+                            {% csrf_token %}
+                            {{ form|crispy }}
+                            <button type="submit" class="btn">Add Product</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <tr>
+                            <th>Id</th>
+                            <th>Category Name</th>
+                            <th>Actions</th>
+                        </tr>
+                        {% for category in categories %}
+                        <tr>
+                            <td>{{ category.id }}</td>
+                            <td>{{ category.category }}</td>
+                            <td>
+                                <div class="btn-group">
+                                    <a class="btn btn-info btn-sm" href="{% url 'dashboard-update_category' category.id %}">Edit</a>
+                                    <a class="btn btn-danger btn-sm" href="{% url 'dashboard-delete_category' category.id %}">Delete</a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+                <h3>Product Table</h3>
+                <div class="table-container">
+                    <form id="filter-form" method="GET">
+                        {% csrf_token %}
+                        <label for="category">Filter by Category:</label>
+                        <select name="category" id="category" onchange="filterProducts()">
+                            <option value="">All</option>
+                            {% for category in categories %}
+                            <option value="{{ category.category }}" {% if selected_category == category.category %}selected{% endif %}>
+                                {{ category.category }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </form>
+                    <table>
+                        <tr>
+                            <th>Product Name</th>
+                            <th>Product Category</th>
+                            <th>Purchased Price</th>
+                            <th>Quantity</th>
+                            <th>Date Purchased</th>
+                            <th>Actions</th>
+                        </tr>
+                        {% for product in products %}
+                        <tr>
+                            <td>{{ product.name }}</td>
+                            <td>{{ product.category.category }}</td>
+                            <td>{{ product.price }}</td>
+                            <td>{{ product.quantity }}</td>
+                            <td>{{ product.date_purchased }}</td>
+                            <td>
+                                <div class="btn-group">
+                                    <a class="btn btn-info btn-sm" href="{% url 'dashboard-update_product' product.id %}">Edit</a>
+                                    <a class="btn btn-danger btn-sm" href="{% url 'dashboard-delete_product' product.id %}">Delete</a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.onscroll = function () {
+            scrollFunction();
+        };
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                document.querySelector('.back-to-top').style.opacity = '1';
+            } else {
+                document.querySelector('.back-to-top').style.opacity = '0';
+            }
+        }
+
+        function scrollToTop() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+
+        document.querySelector('.back-to-top').addEventListener('click', scrollToTop);
+    </script>
+    <!--<footer>-->
+    <!--    <div class="footer-content">-->
+    <!--      <div class="footer-links">-->
+    <!--        <a href="#" class="social-icon"><i class="fab fa-facebook"></i></a>-->
+    <!--        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>-->
+    <!--        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>-->
+    <!--      </div>-->
+    <!--      <p>&copy; 2023 MDInventory App. All rights reserved.</p>-->
+    <!--    </div>-->
+    <!--  </footer>-->
+</body>
+</html>
