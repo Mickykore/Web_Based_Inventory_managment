@@ -27,7 +27,7 @@ The Django Inventory App is a web-based application built with Django framework 
 [Final Project Blog Article](https://www.example.com)
 [Author(s) LinkedIn]
 [Mikiyas Ayele Kore](https://www.linkedin.com/in/mikiyas-ayele)
-[Mikiyas Ayele Kore](https://linkedin.com/in/dagim-wallelgne-218860231)
+[Dagim Wallelgne](https://linkedin.com/in/dagim-wallelgne-218860231)
 
 ---
 
