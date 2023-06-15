@@ -2,3 +2,4 @@
 *.pyo
 */__pycache__/
 media/profile_pics
+db.sqlite3
