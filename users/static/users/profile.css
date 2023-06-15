@@ -2,6 +2,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    background-color: #f8f8f8;
 }
 
 /* New styles for content design */
@@ -15,6 +16,10 @@ body {
     background-color: #333;
     color: #fff;
     padding: 20px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
 }
 
 .sidebar h1 {
@@ -24,6 +29,7 @@ body {
 
 .sidebar h1 a {
     color: #fff;
+    text-decoration: none;
 }
 
 .sidebar ul {
@@ -135,3 +141,8 @@ body {
 .logout-button:hover {
     background-color: #0056b3;
 }
+h1 {
+    color: #333;
+    text-align: center;
+    padding: 20px;
+  }
